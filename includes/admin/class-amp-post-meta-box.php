@@ -283,14 +283,14 @@ class AMP_Post_Meta_Box {
 			true
 		);
 
-		$isStandardMode    = amp_is_canonical();
-		$amp_blocks_in_use = $isStandardMode ? array_filter( self::AMP_DEPENDENT_BLOCKS, 'has_block' ) : [];
+		$is_standard_mode    = amp_is_canonical();
+		$amp_blocks_in_use = $is_standard_mode ? array_filter( self::AMP_DEPENDENT_BLOCKS, 'has_block' ) : [];
 
 		$data = [
 			'ampSlug'         => amp_get_slug(),
 			'errorMessages'   => $this->get_error_messages( $status_and_errors['errors'] ),
 			'hasThemeSupport' => ! amp_is_legacy(),
-			'isStandardMode'  => $isStandardMode,
+			'isStandardMode'  => $is_standard_mode,
 			'ampBlocks'       => self::AMP_DEPENDENT_BLOCKS,
 			'ampBlocksInUse'  => array_values( $amp_blocks_in_use ),
 		];
