@@ -87,6 +87,24 @@ class AMP_Post_Meta_Box {
 	const REST_ATTRIBUTE_NAME = 'amp_enabled';
 
 	/**
+	 * Blocks that are only meant for AMP.
+	 *
+	 * @since 2.1
+	 * @var array
+	 */
+	const AMP_DEPENDENT_BLOCKS = [
+		'amp/amp-brid-player',
+		'amp/amp-ima-video',
+		'amp/amp-jwplayer',
+		'amp/amp-mathml',
+		'amp/amp-o2-player',
+		'amp/amp-ooyala-player',
+		'amp/amp-reach-player',
+		'amp/amp-springboard-player',
+		'amp/amp-timeago',
+	];
+
+	/**
 	 * Initialize.
 	 *
 	 * @since 0.6
@@ -265,11 +283,16 @@ class AMP_Post_Meta_Box {
 			true
 		);
 
+		$isStandardMode    = amp_is_canonical();
+		$amp_blocks_in_use = $isStandardMode ? array_filter( self::AMP_DEPENDENT_BLOCKS, 'has_block' ) : [];
+
 		$data = [
 			'ampSlug'         => amp_get_slug(),
 			'errorMessages'   => $this->get_error_messages( $status_and_errors['errors'] ),
 			'hasThemeSupport' => ! amp_is_legacy(),
-			'isStandardMode'  => amp_is_canonical(),
+			'isStandardMode'  => $isStandardMode,
+			'ampBlocks'       => self::AMP_DEPENDENT_BLOCKS,
+			'ampBlocksInUse'  => array_values( $amp_blocks_in_use ),
 		];
 
 		wp_localize_script(
